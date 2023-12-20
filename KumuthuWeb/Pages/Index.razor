@@ -1,0 +1,31 @@
+﻿@page "/"
+@using KumuthuWeb.Data
+@inject GlobalCounter GlobalCounter
+
+<PageTitle>Counter</PageTitle>
+
+<h1>Counter</h1>
+
+<p role="status">Current count: @counterValue</p>
+
+@code
+{
+    private int counterValue;
+
+    protected override void OnInitialized()
+    {
+        // Set the initial counter value
+        counterValue = GlobalCounter.Counter;
+
+        // Subscribe to the CounterUpdated event
+        GlobalCounter.CounterUpdated += OnCounterUpdated;
+    }
+
+    private void OnCounterUpdated(object sender, EventArgs e)
+    {
+        // Update the counter value when the event is triggered
+        counterValue = GlobalCounter.Counter;
+
+        InvokeAsync(StateHasChanged);
+    }
+}
